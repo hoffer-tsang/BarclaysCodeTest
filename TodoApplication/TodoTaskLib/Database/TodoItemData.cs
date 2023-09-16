@@ -13,28 +13,28 @@ namespace TodoTaskLib.Database
                 new TodoItem
                 {
                     Id = 1,
-                    Name = "Test",
+                    Name = "Task",
                     Priority = 1,
                     Status = Status.NotStarted
                 },
                 new TodoItem
                 {
                     Id = 2,
-                    Name = "Test2",
+                    Name = "Task2",
                     Priority = 1,
                     Status = Status.NotStarted
                 },
                 new TodoItem
                 {
                     Id = 3,
-                    Name = "Test3",
+                    Name = "Task3",
                     Priority = null,
                     Status = Status.Completed
                 },
                 new TodoItem
                 {
                     Id = 4,
-                    Name = "Test4",
+                    Name = "Task4",
                     Priority = 3,
                     Status = null
                 },

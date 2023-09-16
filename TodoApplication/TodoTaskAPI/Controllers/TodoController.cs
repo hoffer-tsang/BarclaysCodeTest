@@ -19,7 +19,7 @@ namespace TodoTaskAPI.Controllers
         [HttpGet]
         public ActionResult<GetTodoItems> Get(string? name = null, int? priority = null, Status? status = null)
         {
-            return _todoItemData.Get(name, priority, status);
+           return _todoItemData.Get(name, priority, status);
         }
 
         [HttpGet("{id}")]

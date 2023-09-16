@@ -105,7 +105,7 @@ namespace TodoTaskLib.Database
 
         private bool ValidatePutData(int id, TodoItem task)
         {
-            if (TodoItemData.Tasks.Where(t => t.Name == task.Name).Count() > 1 ||
+            if (TodoItemData.Tasks.Where(t => t.Id != task.Id && t.Name == task.Name).Any() ||
                 id != task.Id ||
                 string.IsNullOrWhiteSpace(task.Name))
             {
