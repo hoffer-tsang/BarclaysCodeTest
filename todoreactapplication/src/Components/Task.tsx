@@ -2,31 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from '../API/axios';
-enum TaskStatus {
-  NOT_STARTED = 'Not Started',
-  IN_PROGRESS = 'In Progress',
-  COMPLETED = 'Completed',
-}
+import TaskList from '../Components/TaskList';
+import TaskForm from '../Components/TaskForm';
+import TaskErrorMessage from '../Components/TaskErrorMessage';
+import Task from '../Interfaces/ITask';
+import PostTask from '../Interfaces/IPostTask';
+import PutTask from '../Interfaces/IPutTask';
+import TaskStatus from '../Enums/TaskStatus';
 
-interface Task {
-  id: number;
-  name: string;
-  priority: number;
-  status: TaskStatus;
-}
 
-interface PostTask {
-  name: string;
-  priority: number;
-  status: number;
-}
 
-interface PutTask {
-    id: number;
-    name: string;
-    priority: number;
-    status: number;
-}
 
 function mappedStatusToNumber(status: TaskStatus): number {
     let statusValue: number;
@@ -215,124 +200,23 @@ const TaskManager: React.FC = () => {
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Task Manager</h1>
-      {errorMessage && (
-          <div className="alert alert-danger" role="alert">
-            {errorMessage}
-          </div>
-      )}
+      <TaskErrorMessage errorMessage={errorMessage} />
       <button className="btn btn-success mb-2 float-right" onClick={addNewTask}>
         Add New Task
       </button>
       <table className="table table-bordered">
         <thead>
-          <tr>
+        <tr>
             <th onClick={() => handleSort('name')}>Name</th>
             <th onClick={() => handleSort('priority')}>Priority</th>
             <th onClick={() => handleSort('status')}>Status</th>
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
-          {sortedTasks.map((task) => (
-            <tr key={task.id}>
-              <td>{editNewTask?.id === task.id ? (
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={editNewTask.name}
-                  onChange={handleEditChange}
-                />
-              ) : (
-                task.name
-              )}</td>
-              <td>{editNewTask?.id === task.id ? (
-                <input
-                  type="number"
-                  className="form-control"
-                  name="priority"
-                  value={editNewTask.priority}
-                  onChange={handleEditChange}
-                />
-              ) : (
-                task.priority
-              )}</td>
-              <td>{editNewTask?.id === task.id ? (
-                <select
-                  className="form-control"
-                  name="status"
-                  value={editNewTask.status}
-                  onChange={handleEditChange}
-                >
-                  {Object.values(TaskStatus).map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                task.status
-              )}</td>
-              <td>
-                {editNewTask?.id === task.id ? (
-                  <button className="btn btn-success" onClick={saveEditedTask}>
-                    Save
-                  </button>
-                ) : (
-                  <>
-                    <button className="btn btn-primary" onClick={() => editTask(task)}>
-                      Edit
-                    </button>
-                    <button className="btn btn-danger ml-2" onClick={() => deleteTask(task)}>
-                      Delete
-                    </button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
-          {newTask && (
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={newTask.name}
-                  onChange={handleInputChange}
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  className="form-control"
-                  name="priority"
-                  value={newTask.priority}
-                  onChange={handleInputChange}
-                />
-              </td>
-              <td>
-                <select
-                  className="form-control"
-                  name="status"
-                  value={newTask.status}
-                  onChange={handleInputChange}
-                >
-                  {Object.values(TaskStatus).map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                <button className="btn btn-success" onClick={saveNewTask}>
-                  Save
-                </button>
-              </td>
-            </tr>
-          )}
-        </tbody>
+        <TaskList tasks={sortedTasks} editTask={editTask} saveEditedTask={saveEditedTask} deleteTask={deleteTask} handleInputChange={handleEditChange} editNewTask={editNewTask}/>
+        {newTask && (
+          <TaskForm task={newTask} handleInputChange={handleInputChange} saveTask={saveNewTask}/>
+        )}
       </table>
     </div>
   );
