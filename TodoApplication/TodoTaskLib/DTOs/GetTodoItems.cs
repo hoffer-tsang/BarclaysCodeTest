@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TodoTaskLib.DTOs
 {
-    public class GetTasks
+    public class GetTodoItems
     {
-        public List<Task>? Tasks { get; set; }
+        public List<TodoItem>? Tasks { get; set; }
 
         public int Count { get; set; }
 

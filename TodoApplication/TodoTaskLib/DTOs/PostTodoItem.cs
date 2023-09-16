@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using TodoTaskLib.Enums;
 
 namespace TodoTaskLib.DTOs
 {
-    public class PostTask
+    public class PostTodoItem
     {
         public string Name { get; set; } = string.Empty;
 
