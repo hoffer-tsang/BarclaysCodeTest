@@ -56,6 +56,7 @@ const TaskManager: React.FC = () => {
   const [editNewTask, setEditNewTask] = useState<Task | null>(null);
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<number>(1);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fetchTasks = async () => {
     try {
@@ -111,14 +112,15 @@ const TaskManager: React.FC = () => {
     }
 
     if (editNewTask.name.trim() === '') {
-        alert('Task name cannot be empty.');
+        setErrorMessage('Task name cannot be empty.');
         return;
       }
-      if (tasks.some((t) => t.name === editNewTask.name && t.id !== editNewTask.id)) {
-        alert('Task name must be unique.');
-        return;
-      }
+    if (tasks.some((t) => t.name === editNewTask.name && t.id !== editNewTask.id)) {
+      setErrorMessage('Task name must be unique.');
+      return;
+    }
 
+    setErrorMessage(null);
     try {
         const putTask: PutTask = {
             id: editNewTask.id,
@@ -131,6 +133,7 @@ const TaskManager: React.FC = () => {
       setEditNewTask(null);
     } catch (error) {
       console.error('Error editing task:', error);
+      setErrorMessage('Error saving task');
     }
   };
 
@@ -140,14 +143,15 @@ const TaskManager: React.FC = () => {
     }
 
     if (newTask.name.trim() === '') {
-        alert('Task name cannot be empty.');
+        setErrorMessage('Task name cannot be empty.');
         return;
       }
-      if (tasks.some((task) => task.name === newTask.name)) {
-        alert('Task name must be unique.');
-        return;
-      }
+    if (tasks.some((task) => task.name === newTask.name)) {
+      setErrorMessage('Task name must be unique.');
+      return;
+    }
 
+    setErrorMessage(null);
     try {
         const postTask: PostTask = {
             name: newTask.name,
@@ -159,15 +163,22 @@ const TaskManager: React.FC = () => {
       setNewTask(null);
     } catch (error) {
       console.error('Error editing task:', error);
+      setErrorMessage('Error saving task');
     }
   };
 
-  const deleteTask = async (id: number) => {
+  const deleteTask = async (task: Task) => {
+    if (task.status != TaskStatus.COMPLETED)
+    {
+      setErrorMessage("Task status must be completed before delete");
+      return;
+    }
     try {
-      await axios.delete(`https://localhost:7271/api/v1/Task/${id}`);
+      await axios.delete(`https://localhost:7271/api/v1/Task/${task.id}`);
       fetchTasks();
     } catch (error) {
       console.error('Error deleting task:', error);
+      setErrorMessage("Error deleting task:");
     }
   };
 
@@ -203,6 +214,11 @@ const TaskManager: React.FC = () => {
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Task Manager</h1>
+      {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+      )}
       <button className="btn btn-success mb-2 float-right" onClick={addNewTask}>
         Add New Task
       </button>
@@ -266,7 +282,7 @@ const TaskManager: React.FC = () => {
                     <button className="btn btn-primary" onClick={() => editTask(task)}>
                       Edit
                     </button>
-                    <button className="btn btn-danger ml-2" onClick={() => deleteTask(task.id)}>
+                    <button className="btn btn-danger ml-2" onClick={() => deleteTask(task)}>
                       Delete
                     </button>
                   </>
