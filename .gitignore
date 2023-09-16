@@ -1,0 +1,9 @@
+TodoApplication/.vs/
+TodoApplication/.vs/
+TodoApplication/TodoTaskAPI/bin/
+TodoApplication/TodoTaskAPI/obj/
+TodoApplication/TodoTaskLib/bin/
+TodoApplication/TodoTaskLib/obj/
+TodoApplication/TodoTaskUnitTest/bin/
+TodoApplication/TodoTaskUnitTest/obj/
+todoreactapplication/node_modules
