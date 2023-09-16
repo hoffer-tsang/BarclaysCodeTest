@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import TaskManager from './Task';
+import TaskManager from '../Components/Task';
 
 test('renders TaskManager component', () => {
   render(<TaskManager />);

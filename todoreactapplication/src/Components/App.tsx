@@ -1,6 +1,6 @@
 import React from 'react';
-import './App.css';
-import TaskManager from './Task';
+import '../css/App.css';
+import TaskManager from '../Components/Task';
 
 function App() {
   return (

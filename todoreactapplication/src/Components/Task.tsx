@@ -1,8 +1,7 @@
 // src/Task.tsx
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import axios from '../API/axios';
 enum TaskStatus {
   NOT_STARTED = 'Not Started',
   IN_PROGRESS = 'In Progress',
@@ -44,7 +43,7 @@ function mappedStatusToNumber(status: TaskStatus): number {
         break;
       default:
         // Handle any other status values here if needed.
-        statusValue = 0; // Default to 0 for unknown status.
+        statusValue = NaN; // Default to 0 for unknown status.
     }
 
     return statusValue;
@@ -60,7 +59,8 @@ const TaskManager: React.FC = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('https://localhost:7271/api/v1/Task');
+      const response = await axios.get("");
+      setErrorMessage(null);
       const tasksWithMappedStatus = response.data.tasks.map((task: any) => ({
         ...task,
         status:
@@ -70,10 +70,11 @@ const TaskManager: React.FC = () => {
             ? TaskStatus.IN_PROGRESS
             : task.status === 2
             ? TaskStatus.COMPLETED
-            : TaskStatus.NOT_STARTED,
+            : null,
       }));
       setTasks(tasksWithMappedStatus);
     } catch (error) {
+      setErrorMessage('Failed to fetch tasks.');
       console.error('Error fetching tasks:', error);
     }
   };
@@ -128,7 +129,7 @@ const TaskManager: React.FC = () => {
             priority: editNewTask.priority,
             status: mappedStatusToNumber(editNewTask.status)
         };
-      await axios.put(`https://localhost:7271/api/v1/Task/${editNewTask.id}`, putTask);
+      await axios.put(`${editNewTask.id}`, putTask);
       fetchTasks();
       setEditNewTask(null);
     } catch (error) {
@@ -158,7 +159,7 @@ const TaskManager: React.FC = () => {
             priority: newTask.priority,
             status: mappedStatusToNumber(newTask.status)
         };
-      await axios.post(`https://localhost:7271/api/v1/Task`, postTask);
+      await axios.post("", postTask);
       fetchTasks();
       setNewTask(null);
     } catch (error) {
@@ -168,13 +169,13 @@ const TaskManager: React.FC = () => {
   };
 
   const deleteTask = async (task: Task) => {
-    if (task.status != TaskStatus.COMPLETED)
+    if (task.status !== TaskStatus.COMPLETED)
     {
       setErrorMessage("Task status must be completed before delete");
       return;
     }
     try {
-      await axios.delete(`https://localhost:7271/api/v1/Task/${task.id}`);
+      await axios.delete(`${task.id}`);
       fetchTasks();
     } catch (error) {
       console.error('Error deleting task:', error);
