@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import TaskList from './TaskList';
 import TaskForm from './TaskForm';
 import TaskErrorMessage from './TaskErrorMessage';
@@ -27,8 +27,6 @@ export const mappedStatusToNumber = (status: TaskStatus | null): number => {
   }
   return statusValue;
 }
-
-const axios = require('axios');
 
 const TaskManager: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
