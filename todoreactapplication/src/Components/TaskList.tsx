@@ -18,6 +18,7 @@ const TaskList: React.FC<TaskListProps> = ({tasks, editTask, saveEditedTask, del
             <tr key={task.id}>
               <td>{editNewTask?.id === task.id ? (
                 <input
+                  data-testid={'editName' + task.id}
                   type="text"
                   className="form-control"
                   name="name"
@@ -29,6 +30,7 @@ const TaskList: React.FC<TaskListProps> = ({tasks, editTask, saveEditedTask, del
               )}</td>
               <td>{editNewTask?.id === task.id ? (
                 <input
+                  data-testid={'editPriority' + task.id}
                   type="number"
                   className="form-control"
                   name="priority"
@@ -40,6 +42,7 @@ const TaskList: React.FC<TaskListProps> = ({tasks, editTask, saveEditedTask, del
               )}</td>
               <td>{editNewTask?.id === task.id ? (
                 <select
+                  data-testid={'editStatus' + task.id}
                   className="form-control"
                   name="status"
                   value={editNewTask.status}
@@ -56,15 +59,15 @@ const TaskList: React.FC<TaskListProps> = ({tasks, editTask, saveEditedTask, del
               )}</td>
               <td>
                 {editNewTask?.id === task.id ? (
-                  <button className="btn btn-success" onClick={saveEditedTask}>
+                  <button data-testid={'save' + task.id} className="btn btn-success" onClick={saveEditedTask}>
                     Save
                   </button>
                 ) : (
                   <>
-                    <button className="btn btn-primary" onClick={() => editTask(task)}>
+                    <button data-testid={'editTask' + task.id} className="btn btn-primary" onClick={() => editTask(task)}>
                       Edit
                     </button>
-                    <button className="btn btn-danger ml-2" onClick={() => deleteTask(task)}>
+                    <button data-testid={'deleteTask' + task.id} className="btn btn-danger ml-2" onClick={() => deleteTask(task)}>
                       Delete
                     </button>
                   </>

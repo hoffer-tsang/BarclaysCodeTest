@@ -69,10 +69,9 @@ namespace TodoTaskUnitTest
             var getTodoItems = _todoItemService.Get(name, priority, status);
 
             //Assert
-            Assert.Equal(4, getTodoItems.Count);
-            Assert.NotNull(getTodoItems.Tasks);
+            Assert.NotNull(getTodoItems);
             Assert.Collection<TodoItem>(
-                getTodoItems.Tasks,
+                getTodoItems,
                 item => item.Equals(_defaultTasks[0]),
                 item => item.Equals(_defaultTasks[1]),
                 item => item.Equals(_defaultTasks[2]),

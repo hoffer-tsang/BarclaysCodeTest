@@ -14,6 +14,7 @@ const TaskForm: React.FC<TaskFormProps> = ({task, handleInputChange, saveTask })
     <tr>
         <td>
             <input
+                data-testid="newName"
                 type="text"
                 className="form-control"
                 name="name"
@@ -23,6 +24,7 @@ const TaskForm: React.FC<TaskFormProps> = ({task, handleInputChange, saveTask })
         </td>
         <td>
             <input
+                data-testid="newPriority"
                 type="number"
                 className="form-control"
                 name="priority"
@@ -32,6 +34,7 @@ const TaskForm: React.FC<TaskFormProps> = ({task, handleInputChange, saveTask })
         </td>
         <td>
             <select
+            data-testid="newStatus"
             className="form-control"
             name="status"
             value={task?.status}

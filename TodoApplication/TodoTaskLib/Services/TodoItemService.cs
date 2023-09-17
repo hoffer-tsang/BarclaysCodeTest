@@ -14,8 +14,8 @@ namespace TodoTaskLib.Database
        /// <param name="name">name of todo item to be filtered</param>
        /// <param name="priority">priority of todo item to be filtered</param>
        /// <param name="status">status of todo item ot be filtered</param>
-       /// <returns>GetTodoItems that include total count of TodoItem and all TodoItem</returns>
-        public GetTodoItems Get(string? name = null, int? priority = null, Status? status = null)
+       /// <returns>a list of Todoitem</returns>
+        public List<TodoItem> Get(string? name = null, int? priority = null, Status? status = null)
         {
             var tasks = TodoItemData.Tasks;
 
@@ -34,11 +34,7 @@ namespace TodoTaskLib.Database
                 tasks = tasks.Where(t => t.Status == status).ToList();
             }
 
-            return new GetTodoItems
-            {
-                Tasks = tasks,
-                Count = tasks.Count
-            };
+            return tasks;
         }
 
         /// <summary>

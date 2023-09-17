@@ -22,19 +22,15 @@ namespace TodoTaskUnitTest
             
             _mockTodoItemService = new Mock<ITodoItemsService>();
             _mockTodoItemService.Setup(x => x.Get(It.IsAny<string?>(), It.IsAny<int?>(), It.IsAny<Status?>())).Returns(
-               new GetTodoItems
+               new List<TodoItem>
                {
-                   Tasks = new List<TodoItem>
-                        {
-                            new TodoItem
-                            {
-                                Id = 1,
-                                Priority = 1,
-                                Name = "Task1",
-                                Status = Status.Completed
-                            }
-                        },
-                   Count = 1
+                    new TodoItem
+                    {
+                        Id = 1,
+                        Priority = 1,
+                        Name = "Task1",
+                        Status = Status.Completed
+                    }
                });
 
             _mockTodoItemService.Setup(x => x.GetById(999)).Returns(null as TodoItem);
@@ -110,7 +106,7 @@ namespace TodoTaskUnitTest
             //Assert
             Assert.Null(getTodoItems.Result);
             Assert.Equivalent(
-                new GetTodoItems
+                new TodoItemsGetResult
                 {
                     Tasks = new List<TodoItem>
                     {

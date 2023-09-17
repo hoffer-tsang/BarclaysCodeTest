@@ -27,9 +27,14 @@ namespace TodoTaskAPI.Controllers
         /// <param name="status">status to be filtered</param>
         /// <returns>a get todo items that include a list of matching item and the total number of it</returns>
         [HttpGet]
-        public ActionResult<GetTodoItems> Get(string? name = null, int? priority = null, Status? status = null)
+        public ActionResult<TodoItemsGetResult> Get(string? name = null, int? priority = null, Status? status = null)
         {
-           return _todoItemData.Get(name, priority, status);
+            var tasks = _todoItemData.Get(name, priority, status);
+            return new TodoItemsGetResult
+            {
+                Tasks = tasks,
+                Count = tasks.Count
+            };
         }
 
         /// <summary>

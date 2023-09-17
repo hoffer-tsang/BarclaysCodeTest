@@ -9,7 +9,7 @@ namespace TodoTaskLib.Database
     /// </summary>
     public interface ITodoItemsService
     {
-        GetTodoItems Get(string? name, int? priority, Status? status);
+        List<TodoItem> Get(string? name, int? priority, Status? status);
         TodoItem? GetById(int id);
         TodoItem Add(PostTodoItem postTask);
         TodoItem? Update(int id, TodoItem task);

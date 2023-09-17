@@ -9,7 +9,7 @@ import PostTask from '../Interfaces/IPostTask';
 import PutTask from '../Interfaces/IPutTask';
 import TaskStatus from '../Enums/TaskStatus';
 
-export const mappedStatusToNumber = (status: TaskStatus | null): number => {
+const mappedStatusToNumber = (status: TaskStatus | null): number => {
   let statusValue: number;
 
   switch (status) {
@@ -174,11 +174,13 @@ const TaskManager: React.FC = () => {
 
   const sortedTasks = [...tasks].sort((a, b) => {
     if (sortColumn === 'name') {
-      return a.name.localeCompare(b.name) * sortDirection;
+      return (a.name || '').localeCompare(b.name || '') * sortDirection;
     } else if (sortColumn === 'priority') {
       return (a.priority - b.priority) * sortDirection;
     } else if (sortColumn === 'status') {
-      return a.status.localeCompare(b.status) * sortDirection;
+      const statusA = a.status || ''; 
+      const statusB = b.status || '';
+      return statusA.localeCompare(statusB) * sortDirection;
     }
     return 0;
   });
@@ -194,9 +196,9 @@ const TaskManager: React.FC = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Task Manager</h1>
+      <h1 data-testid="header" className="text-center mb-4">Task Manager</h1>
       <TaskErrorMessage errorMessage={errorMessage} />
-      <button className="btn btn-success mb-2 float-right" onClick={addNewTask}>
+      <button data-testid="addNewTaskButton" className="btn btn-success mb-2 float-right" onClick={addNewTask}>
         Add New Task
       </button>
       <table className="table table-bordered">
