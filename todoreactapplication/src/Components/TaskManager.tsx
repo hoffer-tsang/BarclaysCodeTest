@@ -1,38 +1,34 @@
-// src/Task.tsx
 
 import React, { useState, useEffect } from 'react';
-import axios from '../API/axios';
-import TaskList from '../Components/TaskList';
-import TaskForm from '../Components/TaskForm';
-import TaskErrorMessage from '../Components/TaskErrorMessage';
+//import axios from 'axios';
+import TaskList from './TaskList';
+import TaskForm from './TaskForm';
+import TaskErrorMessage from './TaskErrorMessage';
 import Task from '../Interfaces/ITask';
 import PostTask from '../Interfaces/IPostTask';
 import PutTask from '../Interfaces/IPutTask';
 import TaskStatus from '../Enums/TaskStatus';
 
+export const mappedStatusToNumber = (status: TaskStatus | null): number => {
+  let statusValue: number;
 
+  switch (status) {
+    case TaskStatus.NOT_STARTED:
+      statusValue = 0;
+      break;
+    case TaskStatus.IN_PROGRESS:
+      statusValue = 1;
+      break;
+    case TaskStatus.COMPLETED:
+      statusValue = 2;
+      break;
+    default:
+      statusValue = NaN; 
+  }
+  return statusValue;
+}
 
-
-function mappedStatusToNumber(status: TaskStatus): number {
-    let statusValue: number;
-  
-    switch (status) {
-      case TaskStatus.NOT_STARTED:
-        statusValue = 0;
-        break;
-      case TaskStatus.IN_PROGRESS:
-        statusValue = 1;
-        break;
-      case TaskStatus.COMPLETED:
-        statusValue = 2;
-        break;
-      default:
-        // Handle any other status values here if needed.
-        statusValue = NaN; // Default to 0 for unknown status.
-    }
-
-    return statusValue;
-}  
+const axios = require('axios');
 
 const TaskManager: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -41,10 +37,11 @@ const TaskManager: React.FC = () => {
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<number>(1);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const baseUrL = 'https://localhost:7271/api/v1/Task';
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("");
+      const response = await axios.get(`${baseUrL}`);
       setErrorMessage(null);
       const tasksWithMappedStatus = response.data.tasks.map((task: any) => ({
         ...task,
@@ -114,7 +111,7 @@ const TaskManager: React.FC = () => {
             priority: editNewTask.priority,
             status: mappedStatusToNumber(editNewTask.status)
         };
-      await axios.put(`${editNewTask.id}`, putTask);
+      await axios.put(`${baseUrL}/${editNewTask.id}`, putTask);
       fetchTasks();
       setEditNewTask(null);
     } catch (error) {
@@ -144,7 +141,7 @@ const TaskManager: React.FC = () => {
             priority: newTask.priority,
             status: mappedStatusToNumber(newTask.status)
         };
-      await axios.post("", postTask);
+      await axios.post(`${baseUrL}`, postTask);
       fetchTasks();
       setNewTask(null);
     } catch (error) {
@@ -160,7 +157,7 @@ const TaskManager: React.FC = () => {
       return;
     }
     try {
-      await axios.delete(`${task.id}`);
+      await axios.delete(`${baseUrL}/${task.id}`);
       fetchTasks();
     } catch (error) {
       console.error('Error deleting task:', error);
