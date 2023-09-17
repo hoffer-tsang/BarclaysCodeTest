@@ -4,6 +4,9 @@ using TodoTaskLib.Enums;
 
 namespace TodoTaskLib.Database
 {
+    /// <summary>
+    /// In memory collection that work as database
+    /// </summary>
     internal static class TodoItemData
     {
         public static int IdCount = 4;

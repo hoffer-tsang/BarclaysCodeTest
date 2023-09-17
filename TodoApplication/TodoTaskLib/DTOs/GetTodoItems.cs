@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace TodoTaskLib.DTOs
 {
+    /// <summary>
+    /// Data transfer object that hold the structure when a list of todo items is returned
+    /// </summary>
     public class GetTodoItems
     {
         public List<TodoItem>? Tasks { get; set; }

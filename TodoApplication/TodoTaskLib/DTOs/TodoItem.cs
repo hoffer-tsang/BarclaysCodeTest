@@ -2,6 +2,9 @@
 
 namespace TodoTaskLib.DTOs
 {
+    /// <summary>
+    /// The standard todo item object
+    /// </summary>
     public class TodoItem
     {
         public int Id { get; set; }

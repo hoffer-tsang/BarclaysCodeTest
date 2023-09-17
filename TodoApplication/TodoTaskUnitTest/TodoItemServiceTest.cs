@@ -4,6 +4,9 @@ using TodoTaskLib.Enums;
 
 namespace TodoTaskUnitTest
 {
+    /// <summary>
+    /// Unit test for Todo item service class
+    /// </summary>
     public class TodoItemServiceTest
     {
         private readonly ITodoItemsService _todoItemService;
@@ -45,7 +48,13 @@ namespace TodoTaskUnitTest
             _todoItemService = new TodoItemService();
         }
 
+
         #region Get
+
+        /// <summary>
+        /// Test get all todo item
+        /// </summary>
+        /// <param name="name">test null empty whtiespace string as no filter</param>
         [Theory]
         [InlineData("")]
         [InlineData("  ")]
@@ -73,6 +82,10 @@ namespace TodoTaskUnitTest
         #endregion
 
         #region GetById
+
+        /// <summary>
+        /// Get a valid todo item by id
+        /// </summary>
         [Fact]
         public void TodoItemService_GetByIdValidId()
         {
@@ -87,6 +100,9 @@ namespace TodoTaskUnitTest
             Assert.Equivalent(_defaultTasks[0], getByIdTodoItems);
         }
 
+        /// <summary>
+        /// No todo item return by getting with invalid id
+        /// </summary>
         [Fact]
         public void TodoItemService_GetByIdInvalidId()
         {
@@ -102,6 +118,10 @@ namespace TodoTaskUnitTest
         #endregion
 
         #region Add
+
+        /// <summary>
+        /// Test Adding an to do item positive case
+        /// </summary>
         [Fact]
         public void TodoItemService_AddSet()
         {
@@ -119,6 +139,10 @@ namespace TodoTaskUnitTest
             Assert.Equivalent(postTask, postTodoItems);
         }
 
+        /// <summary>
+        /// Test adding todo item with invalid name (null empty white space string and repeated name)
+        /// </summary>
+        /// <param name="name"></param>
         [Theory]
         [InlineData("")]
         [InlineData("  ")]
@@ -141,6 +165,10 @@ namespace TodoTaskUnitTest
         #endregion
 
         #region Update
+
+        /// <summary>
+        /// Test positive case for updating a todo itme
+        /// </summary>
         [Fact]
         public void TodoItemService_UpdateSet()
         {
@@ -160,6 +188,10 @@ namespace TodoTaskUnitTest
             Assert.Equivalent(task, putTodoItems);
         }
 
+        /// <summary>
+        /// Perform update with invalid name
+        /// </summary>
+        /// <param name="name"> invalid name</param>
         [Theory]
         [InlineData("")]
         [InlineData("  ")]
@@ -181,6 +213,9 @@ namespace TodoTaskUnitTest
             Assert.Throws<InvalidDataException>(act);
         }
 
+        /// <summary>
+        /// perform update with id doesnt match
+        /// </summary>
         [Fact]
         public void TodoItemService_UpdateIdNotMatch()
         {
@@ -198,6 +233,10 @@ namespace TodoTaskUnitTest
             Assert.Throws<InvalidDataException>(act);
         }
 
+        /// <summary>
+        /// perform update with invalid id
+        /// </summary>
+        /// <param name="id">no exisiting id in the database</param>
         [Theory]
         [InlineData(99)]
         [InlineData(0)]
@@ -219,6 +258,10 @@ namespace TodoTaskUnitTest
         #endregion
 
         #region Remove
+
+        /// <summary>
+        /// perform remove an item positive case
+        /// </summary>
         [Fact]
         public void TodoItemService_RemoveSet()
         {
@@ -232,6 +275,10 @@ namespace TodoTaskUnitTest
             Assert.True(removeTodoItems);
         }
 
+        /// <summary>
+        /// perform removing item with status that is not completed
+        /// </summary>
+        /// <param name="id"> id of todo item with status not completed </param>
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -257,6 +304,10 @@ namespace TodoTaskUnitTest
             Assert.IsType<InvalidDataException>(exception);
         }
 
+        /// <summary>
+        /// remove with an invalid id
+        /// </summary>
+        /// <param name="id">invalid id</param>
         [Theory]
         [InlineData(99)]
         [InlineData(0)]

@@ -6,11 +6,17 @@ using TodoTaskAPI.Controllers;
 
 namespace TodoTaskUnitTest
 {
+    /// <summary>
+    /// Unit test for the todo controller
+    /// </summary>
     public class TodoControllerTest
     {
         private readonly Mock<ITodoItemsService> _mockTodoItemService;
         private readonly TodoController _taskController;
 
+        /// <summary>
+        /// Constructor of todo controller test that mock the class for TodoItemService
+        /// </summary>
         public TodoControllerTest() 
         {
             
@@ -88,6 +94,10 @@ namespace TodoTaskUnitTest
         }
 
         #region Get Request
+
+        /// <summary>
+        /// Get all todo item
+        /// </summary>
         [Fact]
         public void TodoController_GetSet()
         {
@@ -117,6 +127,9 @@ namespace TodoTaskUnitTest
                 getTodoItems.Value);
         }
 
+        /// <summary>
+        /// Get todo item by valid id
+        /// </summary>
         [Fact]
         public void TodoController_GetByIdSet()
         {
@@ -139,6 +152,9 @@ namespace TodoTaskUnitTest
                 getTodoItem.Value);
         }
 
+        /// <summary>
+        /// get todo item with invalid id
+        /// </summary>
         [Fact]
         public void TodoController_GetByIdSetInvalidId_NotFound()
         {
@@ -156,6 +172,10 @@ namespace TodoTaskUnitTest
         #endregion
 
         #region Post Request
+
+        /// <summary>
+        /// post a valid todo item
+        /// </summary>
         [Fact]
         public void TodoController_PostSet()
         {
@@ -178,8 +198,11 @@ namespace TodoTaskUnitTest
                 postResult.Value);
         }
 
+        /// <summary>
+        /// post a todo item with invalid name
+        /// </summary>
         [Fact]
-        public void TodoController_PostSetInvalidId_BadRequest()
+        public void TodoController_PostSetInvalidName_BadRequest()
         {
             // Arrange
             var postTodoItem = new PostTodoItem { Name = "Invalid" };
@@ -194,6 +217,10 @@ namespace TodoTaskUnitTest
         #endregion
 
         #region Put Request
+
+        /// <summary>
+        /// Put a valid todo item
+        /// </summary>
         [Fact]
         public void TodoController_PutSet()
         {
@@ -217,6 +244,9 @@ namespace TodoTaskUnitTest
                 putResult.Value);
         }
 
+        /// <summary>
+        /// post a todoitem with invalid name
+        /// </summary>
         [Fact]
         public void TodoController_PutSetInvalidName_BadRequest()
         {
@@ -232,6 +262,9 @@ namespace TodoTaskUnitTest
             Assert.Null(putResult.Value);
         }
 
+        /// <summary>
+        /// post a todo item with invalid id
+        /// </summary>
         [Fact]
         public void TodoController_PutSetInvalidId_NotFound()
         {
@@ -249,6 +282,10 @@ namespace TodoTaskUnitTest
         #endregion
 
         #region Delete Request
+
+        /// <summary>
+        /// delete an exisiting item 
+        /// </summary>
         [Fact]
         public void TodoController_DeleteSet()
         {
@@ -262,6 +299,9 @@ namespace TodoTaskUnitTest
             Assert.Equivalent(new OkResult(), deleteResult);
         }
 
+        /// <summary>
+        /// delete an item with invalid status
+        /// </summary>
         [Fact]
         public void TodoController_DeleteSetInvalidStatus_BadRequest()
         {
@@ -275,6 +315,9 @@ namespace TodoTaskUnitTest
             Assert.Equivalent(new BadRequestResult(), deleteResult);
         }
 
+        /// <summary>
+        /// delete an item with invalid id
+        /// </summary>
         [Fact]
         public void TodoController_DeleteSetInvalidId_NotFound()
         {

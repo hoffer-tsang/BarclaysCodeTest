@@ -4,6 +4,9 @@ using TodoTaskLib.Enums;
 
 namespace TodoTaskLib.Database
 {
+    /// <summary>
+    /// Interface for TodoItemServices
+    /// </summary>
     public interface ITodoItemsService
     {
         GetTodoItems Get(string? name, int? priority, Status? status);
